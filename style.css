@@ -1,0 +1,178 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 20px;
+    color: #000;
+    background: url('Code.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+a {
+    color: inherit;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh; /* Cambié el 180vh a 100vh para que ocupe toda la pantalla */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+}
+
+.page .header {
+    white-space: pre-wrap;
+    direction: ltr;
+    text-align: left;
+    font-size: 40px;
+    text-transform: uppercase;
+    width: auto;
+    max-width: 90vw;
+    margin-left: 55px;
+    margin-top: 0; /* Aseguramos que no haya espacio arriba */
+    font-family: 'Dancing Script', monospace;
+    display: block;
+    text-align: center;
+}
+
+#typed-text {
+    white-space: pre-wrap;
+    direction: ltr;
+    text-align: left;
+    font-family: 'Dancing Script', monospace;
+    display: block;
+    margin-top: 20px; /* Aseguramos que haya un pequeño espacio entre los textos */
+}
+
+.page .content {
+    max-width: 750px;
+    padding: 10px;
+    font-size: 30px;
+    margin-left: 55px;
+    text-align: center;
+    margin-top: 0; /* El texto se muestra desde arriba */
+}
+
+.page .last-line {
+    text-align: right;
+    padding-top: 0.5em;
+}
+
+.page ::-moz-selection {
+    background: #F7C02D;
+}
+
+.page ::selection {
+    background: #F7C02D;
+}
+
+.scroll-msg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    padding-top: 2em;
+}
+
+.scroll-msg > div:nth-child(1) {
+    margin-top: -10vh;
+    padding-bottom: 1em;
+    text-transform: uppercase;
+    font-size: 2em;
+}
+
+canvas#fire-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    pointer-events: none;
+}
+
+.arrow-animated {
+    font-size: 1em;
+    animation: arrow-float 1s infinite;
+}
+
+@keyframes arrow-float {
+    0% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+    60% {
+        transform: translateY(50%);
+        animation-timing-function: ease-in-out;
+    }
+    100% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+}
+
+.cursor {
+    display: inline-block;
+    width: 1ch;
+    animation: blink 0.8s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+.reloj-amor {
+    font-family: 'Dancing Script', monospace;
+    font-size: 1.3rem;
+    color: black;
+    text-align: center;
+    position: absolute; /* Cambié 'absolute' para asegurar que se quede en su lugar */
+    bottom:  200px; /* Asegura que se posicione en la parte superior de la pantalla */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    white-space: pre-line;
+    opacity: 0;
+    padding: 0 20px;
+    max-width: 90vw;
+    font-weight: 800;
+    word-wrap: break-word;
+    width: 700px;
+    margin-top: 0; /* Elimina el margen superior para que no se desplace */
+}
+
+
+@media screen and (max-width: 768px) {
+  #typed-text {
+    margin-top: 200px;
+    font-size: 15px;
+    padding: 0 20px;
+    text-align: justify;
+  }
+
+  .page .content {
+    font-size: 28px;
+    margin-left: 10px;
+    padding: 10px;
+    margin-top: -200px;
+  }
+
+  .page .header {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-top: 200px;
+    text-align: center;
+  }
+
+  .reloj-amor {
+    font-size: 0.8rem;
+    bottom: -300px;
+  }
+}
