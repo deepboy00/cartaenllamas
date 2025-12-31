@@ -255,29 +255,46 @@ function respuesta(valor) {
 
 function validarSesionDespues() {
   const nombre = localStorage.getItem("nombre");
-
   if (!nombre) {
     window.location.href = "index.html";
     return;
   }
 
-  fetch("https://api-decla-production.up.railway.app/validar_persona", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre })
-  })
-  .then(res => res.json())
-  .then(data => {
-    // 🔒 Sesión ya cerrada (porque ya respondió)
-    if (!data.sesion || data.sesion === 0) {
-      localStorage.clear();
-      window.location.href = "index.html";
-    }
-  })
-  .catch(() => {
-    window.location.href = "index.html";
-  });
+  // Función que hace la validación con reintentos
+  const intentos = 3;
+  const delay = 500; // ms entre cada intento
+
+  let i = 0;
+
+  const checkSesion = () => {
+    fetch("https://api-decla-production.up.railway.app/validar_persona", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.sesion || data.sesion === 0) {
+        localStorage.clear();
+        window.location.href = "index.html";
+      } else if (i < intentos - 1) {
+        i++;
+        setTimeout(checkSesion, delay);
+      }
+    })
+    .catch(() => {
+      if (i < intentos - 1) {
+        i++;
+        setTimeout(checkSesion, delay);
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  }
+
+  checkSesion();
 }
+
 
 
 function enviarRespuesta(nombre, aceptacion) {
