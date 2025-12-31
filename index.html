@@ -1,201 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Love You by AlexDev</title>
-  <link rel="stylesheet" href="./style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Solo para ti</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<div class="page">
-  <div class="header-container">
-    <div class="header" id="typed-header"></div>
-  </div>
-  <div class="content">
-    <p id="typed-text"></p>
-  </div>
-</div>
-<div class="reloj-amor" id="relojAmor"></div>
 
-<script>
-  const header = document.getElementById('typed-header');
-  const body = document.getElementById('typed-text');
-  const contenedor = document.getElementById('relojAmor');
+    <!-- Fondo de corazones -->
+    <div id="hearts"></div>
 
-  const headerText = "Para el amor de mi vida:";
-  const bodyText = `Si pudiera elegir un lugar seguro, sería a tu lado. Cuanto más tiempo estoy contigo, más te amo. Hay personas que cambian tu día… tú cambiaste mi vida. Tú no llegaste a completar mi historia… llegaste a escribir la más bonita.`;
+    <main class="container">
+        <section class="card">
+            <h1>❤️ Bienvenida ❤️</h1>
+            <p class="subtitle">
+                Escribe tu nombre para continuar.
+            </p>
 
-  function typeWriter(el, text, i, speed, done) {
-    if (i < text.length) {
-      el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-      setTimeout(() => typeWriter(el, text, i + 1, speed, done), speed);
-    } else if (done) {
-      done();
-    }
-  }
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Tu nombre"
+                autocomplete="off"
+            >
 
-  function calcularTextoReloj() {
-    const fechaInicio = new Date("2024-06-10T00:00:00");
-    const ahora = new Date();
-    const diferencia = ahora - fechaInicio;
+            <button id="btnIngresar">Continuar</button>
 
-    const totalSegundos = Math.floor(diferencia / 1000);
-    const dias = Math.floor(totalSegundos / (3600 * 24));
-    const horas = Math.floor((totalSegundos % (3600 * 24)) / 3600);
-    const minutos = Math.floor((totalSegundos % 3600) / 60);
-    const segundos = totalSegundos % 60;
+            <span id="mensaje" class="mensaje"></span>
+        </section>
+    </main>
 
-    return `Mi amor por ti comenzó hace...\n${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos`;
-  }
-
-  function escribirComoMaquina(texto, elemento, velocidad = 5, callback) {
-    let i = 0;
-    elemento.innerHTML = "";
-    const intervalo = setInterval(() => {
-      elemento.innerHTML += texto.charAt(i);
-      i++;
-      if (i >= texto.length) {
-        clearInterval(intervalo);
-        if (callback) callback();
-      }
-    }, velocidad);
-  }
-
-  function actualizarTiempo() {
-    contenedor.innerHTML = calcularTextoReloj();
-  }
-
-  function iniciarReloj() {
-    contenedor.style.opacity = 1;
-    const textoInicial = calcularTextoReloj();
-    escribirComoMaquina(textoInicial, contenedor, 10, () => {
-      setInterval(actualizarTiempo, 1000);
-    });
-  }
-
-  // Bloqueo de scroll al cargar la página
-  function bloquearScroll() {
-    document.body.style.overflow = 'hidden';  // Bloquea el scroll
-  }
-
-  // Desbloqueo del scroll después de 3 segundos
-  function desbloquearScroll() {
-    setTimeout(() => {
-      document.body.style.overflow = 'auto';  // Desbloquea el scroll
-      // Comienza la escritura del texto de la máquina de escribir
-      typeWriter(header, headerText, 0, 1, () => {
-        header.classList.remove("typing");
-        typeWriter(body, bodyText, 0, 1, () => {
-          iniciarReloj();
-        });
-      });
-    }, 3000); // Después de 3 segundos, empieza a escribir el texto
-  }
-
-  // Inicia la animación automáticamente y hace el scroll durante 3 segundos
-  function iniciarAnimacion() {
-    window.scrollTo(0, 0); // Emula el desplazamiento hacia arriba
-    setTimeout(() => {
-      // Desbloquea el scroll y empieza la escritura del texto
-      desbloquearScroll();
-    }, 3000);  // Simula el scroll durante 3 segundos
-
-    // Muestra el mensaje "Esto es para ti ❤️‍🔥" durante 3 segundos
-    document.querySelector(".scroll-msg > div:nth-child(1)").innerText = "Esto es para ti ❤️‍🔥";
-    setTimeout(() => {
-      document.querySelector(".scroll-msg > div:nth-child(1)").style.opacity = 0;
-    }, 3000);
-
-    // Inicia la animación del fuego
-    gsap.to(params, {
-        fireTime: 0.63,
-        duration: 3,
-        delay: 3, // Espera 3 segundos antes de iniciar el fuego
-    });
-  }
-
-  // Llama a la función para iniciar la animación al cargar la página
-  window.onload = () => {
-    bloquearScroll(); // Bloquea el scroll al principio
-    iniciarAnimacion();
-  };
-</script>
-
-<canvas id="fire-overlay"></canvas>
-<div class="scroll-msg">
-    <div>Esto es para ti ❤️‍🔥</div>
-</div>
-
-<script type="x-shader/x-fragment" id="vertShader">
-    precision mediump float;
-
-    varying vec2 vUv;
-    attribute vec2 a_position;
-
-    void main() {
-        vUv = a_position;
-        gl_Position = vec4(a_position, 0.0, 1.0);
-    }
-</script>
-
-<script type="x-shader/x-fragment" id="fragShader">
-    precision mediump float;
-
-    varying vec2 vUv;
-    uniform vec2 u_resolution;
-    uniform float u_progress;
-    uniform float u_time;
-
-    float rand(vec2 n) {
-        return fract(cos(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
-    }
-    float noise(vec2 n) {
-        const vec2 d = vec2(0., 1.);
-        vec2 b = floor(n), f = smoothstep(vec2(0.0), vec2(1.0), fract(n));
-        return mix(mix(rand(b), rand(b + d.yx), f.x), mix(rand(b + d.xy), rand(b + d.yy), f.x), f.y);
-    }
-    float fbm(vec2 n) {
-        float total = 0.0, amplitude = .4;
-        for (int i = 0; i < 4; i++) {
-            total += noise(n) * amplitude;
-            n += n;
-            amplitude *= 0.6;
-        }
-        return total;
-    }
-
-    void main() {
-        vec2 uv = vUv;
-        uv.x *= min(1., u_resolution.x / u_resolution.y);
-        uv.y *= min(1., u_resolution.y / u_resolution.x);
-
-        float t = u_progress;
-        vec3 color = vec3(1., 1., .95);
-
-        float main_noise = 1. - fbm(.75 * uv + 10. - vec2(.3, .9 * t));
-
-        float paper_darkness = smoothstep(main_noise - .1, main_noise, t);
-        color -= vec3(.99, .95, .99) * paper_darkness;
-
-        vec3 fire_color = fbm(6. * uv - vec2(0., .005 * u_time)) * vec3(6., 1.4, .0);
-        float show_fire = smoothstep(.4, .9, fbm(10. * uv + 2. - vec2(0., .005 * u_time)));
-        show_fire += smoothstep(.7, .8, fbm(.5 * uv + 5. - vec2(0., .001 * u_time)));
-
-        float fire_border = .02 * show_fire;
-        float fire_edge = smoothstep(main_noise - fire_border, main_noise - .5 * fire_border, t);
-        fire_edge *= (1. - smoothstep(main_noise - .5 * fire_border, main_noise, t));
-        color += fire_color * fire_edge;
-
-        float opacity = 1. - smoothstep(main_noise - .0005, main_noise, t);
-
-        gl_FragColor = vec4(color, opacity);
-    }
-</script>
-
-<!-- partial -->
-<script src='https://unpkg.com/gsap@3/dist/gsap.min.js'></script>
-<script src='https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js'></script><script  src="./script.js"></script>
-
+    <script src="index.js"></script>
 </body>
 </html>

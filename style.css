@@ -1,4 +1,6 @@
 body, html {
+    height: 100%;
+    overflow: hidden;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
@@ -30,8 +32,9 @@ a {
     width: auto;
     max-width: 90vw;
     margin-left: 55px;
-    margin-top: 0; /* Aseguramos que no haya espacio arriba */
-    font-family: 'Dancing Script', monospace;
+    margin-top: 50px; /* Aseguramos que no haya espacio arriba */
+    font-family: 'Playfair Display', cursive;
+    font-style: italic;
     display: block;
     text-align: center;
 }
@@ -40,9 +43,13 @@ a {
     white-space: pre-wrap;
     direction: ltr;
     text-align: left;
-    font-family: 'Dancing Script', monospace;
+    font-family: 'Dancing Script', cursive;
+    font-style: italic;
+    font-weight: bold;
     display: block;
-    margin-top: 20px; /* Aseguramos que haya un pequeño espacio entre los textos */
+    margin-top: 10px; /* Aseguramos que haya un pequeño espacio entre los textos */
+    font-size: 28px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 .page .content {
@@ -175,4 +182,70 @@ canvas#fire-overlay {
     font-size: 0.8rem;
     bottom: -300px;
   }
+}
+
+.proposal {
+    position: fixed;
+    top: 68%;
+    left: 40%;
+    transform: translate(-50%, -40%);
+    text-align: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 2s ease, transform 2s ease;
+    z-index: 20;
+}
+
+
+.proposal h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 38px;
+    color: #b11226;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.btn {
+    font-family: 'Dancing Script', cursive;
+    font-size: 28px;
+    padding: 14px 50px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.btn.yes {
+    background: linear-gradient(135deg, #b11226, #ff4d6d);
+    color: white;
+    box-shadow: 0 8px 25px rgba(177,18,38,0.45);
+}
+
+.btn.no {
+    background: transparent;
+    color: #444;
+    border: 2px solid #444;
+}
+
+.btn.yes:hover {
+    transform: scale(1.15);
+    box-shadow: 0 12px 35px rgba(255,77,109,0.7);
+}
+
+.btn.no:hover {
+    transform: scale(0.9);
+    opacity: 0.6;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
