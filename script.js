@@ -7,7 +7,6 @@ function detectarDispositivo() {
         document.body.innerHTML = `
             <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;font-family:sans-serif;">
                 <h1>🚫 Solo disponible en PC o Laptop</h1>
-                <p>Por favor abre esta página desde un ordenador.</p>
             </div>
         `;
         return false; // Bloquea todo el resto del JS
